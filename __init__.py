@@ -76,7 +76,6 @@ def circle_collsion(circle1_position, circle1_radius, circle2_position, circle2_
 
     return True
 
-
 class Color:
     def __init__(self, r=0, g=0, b=0):
         self.r = r
@@ -329,6 +328,21 @@ class Vector3:
             return self.x == other.x and self.y == other.y and self.z == other.z
         return False
 
+def wpp(point: Vector3, focal_length) -> Vector2:
+    """
+    Weak Perspective Projection
+
+    Formula:
+    x_proj = (focal_length * x) / (focal_length + z)
+    y_proj = (focal_length * y) / (focal_length + z)
+    """
+
+    projected = Vector2()
+
+    projected.x = (focal_length * point.x) / (focal_length + point.z)
+    projected.y = (focal_length * point.y) / (focal_length + point.z)
+
+    return projected
 
 class Text:
     def __init__(self, text, font, position, anchor, color, bg_color=None, anti_aliasing=True):
