@@ -344,24 +344,27 @@ def wpp(point: Vector3, focal_length) -> Vector2:
 
     return projected
 
-def rotate_x(point: Vector3, angle: int):
+def rotate_x(point: Vector3, angle: float):
+    angle_rad = math.radians(angle)
     return Vector3(
         point.x,
-        point.y*math.cos(angle)-point.z*math.sin(angle),
-        point.y*math.sin(angle)+point.z*math.cos(angle)
+        point.y * math.cos(angle_rad) - point.z * math.sin(angle_rad),
+        point.y * math.sin(angle_rad) + point.z * math.cos(angle_rad)
     )
 
-def rotate_y(point: Vector3, angle: int):
+def rotate_y(point: Vector3, angle: float):
+    angle_rad = math.radians(angle)
     return Vector3(
-        point.x*math.cos(angle)-point.z*math.sin(angle),
+        point.x * math.cos(angle_rad) + point.z * math.sin(angle_rad),
         point.y,
-        point.x*math.sin(angle)+point.z*math.cos(angle)
+        -point.x * math.sin(angle_rad) + point.z * math.cos(angle_rad)
     )
 
-def rotate_z(point: Vector3, angle: int):
+def rotate_z(point: Vector3, angle: float):
+    angle_rad = math.radians(angle)
     return Vector3(
-        point.x * math.cos(angle) - point.y * math.sin(angle),
-        point.x * math.sin(angle) + point.y * math.cos(angle),
+        point.x * math.cos(angle_rad) - point.y * math.sin(angle_rad),
+        point.x * math.sin(angle_rad) + point.y * math.cos(angle_rad),
         point.z
     )
 
