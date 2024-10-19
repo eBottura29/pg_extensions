@@ -47,7 +47,7 @@ def draw_polygon(surface, color, points, width=0):
     for point in points:
         point = int(point.x + window.WIDTH // 2), int(-point.y + window.HEIGHT // 2)
 
-    pygame.draw.polygon(surface, color, points, width)
+    pygame.draw.polygon(surface, color.tup(), points, width)
 
 
 def distance_between_points(p1, p2):
