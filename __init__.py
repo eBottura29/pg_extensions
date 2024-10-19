@@ -344,6 +344,28 @@ def wpp(point: Vector3, focal_length) -> Vector2:
 
     return projected
 
+def rotate_x(point: Vector3, angle: int):
+    return Vector3(
+        point.x,
+        point.y*math.cos(angle)-point.z*math.sin(angle),
+        point.y*math.sin(angle)+point.z*math.cos(angle)
+    )
+
+def rotate_y(point: Vector3, angle: int):
+    return Vector3(
+        point.x*math.cos(angle)-point.z*math.sin(angle),
+        point.y,
+        point.x*math.sin(angle)+point.z*math.cos(angle)
+    )
+
+def rotate_z(point: Vector3, angle: int):
+    return Vector3(
+        point.x * math.cos(angle) - point.y * math.sin(angle),
+        point.x * math.sin(angle) + point.y * math.cos(angle),
+        point.z
+    )
+
+
 class Text:
     def __init__(self, text, font, position, anchor, color, bg_color=None, anti_aliasing=True):
         """Anchor is top left"""
