@@ -49,8 +49,6 @@ def draw_polygon(surface, color, points, width=0):
         new_point = (int(point.x + window.WIDTH // 2), int(-point.y + window.HEIGHT // 2))
         new_points.append(new_point)
 
-    print(new_points)
-
     pygame.draw.polygon(surface, color.tup(), new_points, width)
 
 
