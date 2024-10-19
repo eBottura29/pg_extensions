@@ -584,3 +584,7 @@ def run(start, update, width=800, height=450, fullscreen=False, title="Game", ma
 
 def get_window():
     return window
+
+def set_window(wndw):
+    global window
+    window = wndw

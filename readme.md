@@ -7,4 +7,5 @@ How to use:
 4. If __name__ == "__main__": run(start, update) -----> this is to start the program and run the start() and update() functions
 5. The run function has other parameters to change the resolution, fullscreen, and other stuff
 6. To access the surface, use get_window()
+7. If you end up accessing the surface, don't forget to call set_window(window) to make sure the changes you made apply (window.running = False,...)
 7. Enjoy

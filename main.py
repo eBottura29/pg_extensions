@@ -6,7 +6,8 @@ def start():
 
 
 def update():
-    pass
+    window = get_window()
+    set_window(window)
 
 
 if __name__ == "__main__":
