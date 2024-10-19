@@ -378,14 +378,18 @@ class Text:
         self.bg_color = bg_color
         self.anti_aliasing = anti_aliasing
 
-        center = "center"
-        top_left = "topleft"
-        top_right = "topright"
-        bottom_left = "bottomleft"
-        bottom_right = "bottomright"
+    center = "center"
+    top_left = "topleft"
+    top_right = "topright"
+    bottom_left = "bottomleft"
+    bottom_right = "bottomright"
+
+    arial_32 = pygame.font.SysFont("Arial", 32)
+    arial_24 = pygame.font.SysFont("Arial", 24)
+    arial_16 = pygame.font.SysFont("Arial", 16)
 
     def render(self):
-        text = self.font.render(self.text, self.anti_aliasing, self.color.get_tup(), self.bg_color if self.bg_color != None else None)
+        text = self.font.render(self.text, self.anti_aliasing, self.color.tup(), self.bg_color if self.bg_color != None else None)
         text_rect = text.get_rect()
 
         if self.anchor == Text.center:
@@ -462,10 +466,6 @@ class Window:
         self.HEIGHT = height
         self.SURFACE = pygame.display.set_mode((self.WIDTH, self.HEIGHT), pygame.FULLSCREEN if fullscreen else 0)
         self.delta_time = 0
-
-        arial_32 = pygame.font.SysFont("Arial", 32)
-        arial_24 = pygame.font.SysFont("Arial", 24)
-        arial_16 = pygame.font.SysFont("Arial", 16)
 
         pygame.display.set_caption(title)
         if icon is not None:
