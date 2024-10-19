@@ -44,10 +44,14 @@ def draw_line(surface, color, start_pos, end_pos, width=1):
     )
 
 def draw_polygon(surface, color, points, width=0):
+    new_points = []
     for point in points:
-        point = int(point.x + window.WIDTH // 2), int(-point.y + window.HEIGHT // 2)
+        new_point = (int(point.x + window.WIDTH // 2), int(-point.y + window.HEIGHT // 2))
+        new_points.append(new_point)
 
-    pygame.draw.polygon(surface, color.tup(), points, width)
+    print(new_points)
+
+    pygame.draw.polygon(surface, color.tup(), new_points, width)
 
 
 def distance_between_points(p1, p2):
