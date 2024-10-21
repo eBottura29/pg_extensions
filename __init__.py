@@ -128,6 +128,13 @@ class Vector2:
         self.x = x
         self.y = y
 
+    @staticmethod
+    def random(min, max):
+        x = random_float(min.x, max.x)
+        y = random_float(min.y, max.y)
+
+        return Vector2(x, y)
+
     def magnitude(self):
         """
         Returns the magnitude (length) of the vector.
@@ -250,6 +257,14 @@ class Vector3:
         self.x = x
         self.y = y
         self.z = z
+
+    @staticmethod
+    def random(min, max):
+        x = random_float(min.x, max.x)
+        y = random_float(min.y, max.y)
+        z = random_float(min.z, max.z)
+
+        return Vector3(x, y, z)
 
     def magnitude(self):
         """
