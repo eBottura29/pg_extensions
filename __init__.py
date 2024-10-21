@@ -61,11 +61,9 @@ def random_float(min_value=0.0, max_value=1.0):
 
 
 def sign(value):
-    if value > 0:
-        return 1
-    elif value < 0:
-        return -1
-    else:
+    try:
+        return value / abs(value)
+    except ZeroDivisionError:
         return 0
 
 
