@@ -7,6 +7,10 @@ def start():
 
 def update():
     window = get_window()
+    window.clear() # Choose a color (default is black)
+
+    # Your code comes here
+
     set_window(window)
 
 

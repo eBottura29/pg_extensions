@@ -498,6 +498,9 @@ class Window:
         self.MAX_FPS = max_fps
 
         self.clock = pygame.time.Clock()
+    
+    def clear(self, color: Color = Color()):
+        self.SURFACE.fill(color.tup())
 
 
 class InputManager:
