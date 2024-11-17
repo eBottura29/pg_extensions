@@ -8,6 +8,7 @@ def start():
 def update():
     window = get_window()
     window.clear() # Choose a color (default is black)
+    input_manager.update()
 
     # Your code comes here
 

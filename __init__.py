@@ -489,7 +489,7 @@ class Window:
         self.WIDTH = width
         self.HEIGHT = height
         self.SURFACE = pygame.display.set_mode((self.WIDTH, self.HEIGHT), pygame.FULLSCREEN if fullscreen else 0)
-        self.delta_time = 0
+        self.delta_time = 1 / max_fps
 
         pygame.display.set_caption(title)
         if icon is not None:
