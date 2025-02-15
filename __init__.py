@@ -30,6 +30,14 @@ def draw_circle(surface, color, position, radius, width=0):
     pygame.draw.circle(surface, color.tup(), (int(position.x) + window.WIDTH // 2, -int(position.y) + window.HEIGHT // 2), radius, width)
 
 
+def draw_circle_2(surface, color, position, radius):
+    # draws a circle with alpha value
+    target_rect = pygame.Rect((int(position.x) + window.WIDTH // 2, -int(position.y) + window.HEIGHT // 2), (0, 0)).inflate((radius * 2, radius * 2))
+    shape_surf = pygame.Surface(target_rect.size, pygame.SRCALPHA)
+    pygame.draw.circle(shape_surf, color, (radius, radius), radius)
+    surface.blit(shape_surf, target_rect)
+
+
 def draw_rectangle(surface, color, position, size, width=0):
     pygame.draw.rect(surface, color.tup(), pygame.Rect(position.x + window.WIDTH // 2, -position.y + window.HEIGHT // 2, size.x, size.y), width)
 
@@ -119,7 +127,7 @@ YELLOW = Color(255, 255, 0)
 CYAN = Color(0, 255, 255)
 MAGENTA = Color(255, 0, 255)
 PURPLE = Color(128, 0, 128)
-MAGENTA = Color(128, 52, 32)
+ORANGE = Color(128, 52, 32)
 
 class Vector2:
     def __init__(self, x=0, y=0):
@@ -392,7 +400,7 @@ def rotate_z(point: Vector3, angle: float):
 
 class Text:
     def __init__(self, text, font, position, anchor, color, bg_color=None, anti_aliasing=True):
-        """Anchor is top left"""
+        """Default anchor is top left"""
 
         self.text = text
         self.font = font
@@ -413,19 +421,21 @@ class Text:
     arial_16 = pygame.font.SysFont("Arial", 16)
 
     def render(self):
-        text = self.font.render(self.text, self.anti_aliasing, self.color.tup(), self.bg_color if self.bg_color != None else None)
+        text = self.font.render(self.text, self.anti_aliasing, self.color.tup(), self.bg_color.tup() if self.bg_color != None else None)
         text_rect = text.get_rect()
 
+        position = self.position.x + window.WIDTH // 2, -self.position.y + window.HEIGHT // 2
+
         if self.anchor == Text.center:
-            text_rect.center = self.position.x // 2, self.position.y // 2
+            text_rect.center = position
         if self.anchor == Text.top_left:
-            text_rect.topleft = self.position.x // 2, self.position.y // 2
+            text_rect.topleft = position
         if self.anchor == Text.top_right:
-            text_rect.topright = self.position.x // 2, self.position.y // 2
+            text_rect.topright = position
         if self.anchor == Text.bottom_left:
-            text_rect.bottomleft = self.position.x // 2, self.position.y // 2
+            text_rect.bottomleft = position
         if self.anchor == Text.bottom_right:
-            text_rect.bottomright = self.position.x // 2, self.position.y // 2
+            text_rect.bottomright = position
 
         window.SURFACE.blit(text, text_rect)
 
@@ -448,10 +458,10 @@ class Button:
         self.clicked_this_click = False
 
     def render(self):
-        draw_rectangle(window.SURFACE, self.color.tup(), self.position, self.scale)
+        draw_rectangle(window.SURFACE, self.color, self.position, self.scale)
 
         if self.enable_outline:
-            draw_rectangle(window.SURFACE, self.outline_color.tup(), self.position, self.scale, self.outline_width)
+            draw_rectangle(window.SURFACE, self.outline_color, self.position, self.scale, self.outline_width)
 
         if self.render_text:
             self.text_obj = Text(self.text, self.font, self.position, Text.center, self.text_color)
@@ -546,7 +556,8 @@ class InputManager:
                 self.mouse_buttons_held[button] = False
 
         # Mouse movement
-        self.mouse_position = Vector2(*pygame.mouse.get_pos())
+        mouse_pos = Vector2(*pygame.mouse.get_pos())
+        self.mouse_position = Vector2(mouse_pos.x - window.WIDTH // 2, -mouse_pos.y + window.HEIGHT // 2)
         self.mouse_motion = Vector2(*pygame.mouse.get_rel())
 
     def get_key_down(self, key):
