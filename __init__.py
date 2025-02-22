@@ -51,6 +51,8 @@ def draw_polygon(surface, color, points, width=0):
 
     pygame.draw.polygon(surface, color.tup(), new_points, width)
 
+def set_point(surface, point, color):
+    surface.set_at((int(point.x + window.WIDTH // 2), int(-point.y + window.HEIGHT // 2)), color.tup())
 
 def distance_between_points(p1, p2):
     return math.sqrt((p2.x - p1.x) ** 2 + (p2.y - p1.y) ** 2)
