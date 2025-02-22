@@ -236,8 +236,10 @@ class Vector2:
     # Division
     def __truediv__(self, other):
         if isinstance(other, Vector2):
-            return Vector2(self.x / other.x, self.y / other.y)
+            return Vector2((self.x / other.x) if other.x != 0 else 0, (self.y / other.y) if other.y != 0 else 0)
         elif isinstance(other, (int, float)):
+            if other == 0:
+                return Vector2()
             return Vector2(self.x / other, self.y / other)
         return NotImplemented
 
