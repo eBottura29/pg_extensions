@@ -59,6 +59,8 @@ def draw_polygon(surface, color, points, width=0):
 
     pygame.draw.polygon(surface, color.tup(), new_points, width)
 
+def set_point(surface, point, color):
+    surface.set_at((int(point.x + window.WIDTH // 2), int(-point.y + window.HEIGHT // 2)), color.tup())
 
 def distance_between_points(p1, p2):
     return math.sqrt((p2.x - p1.x) ** 2 + (p2.y - p1.y) ** 2)
@@ -499,7 +501,7 @@ class Window:
         self.WIDTH = width
         self.HEIGHT = height
         self.SURFACE = pygame.display.set_mode((self.WIDTH, self.HEIGHT), pygame.FULLSCREEN if fullscreen else 0)
-        self.delta_time = 0
+        self.delta_time = 1 / max_fps
 
         pygame.display.set_caption(title)
         if icon is not None:
@@ -508,6 +510,9 @@ class Window:
         self.MAX_FPS = max_fps
 
         self.clock = pygame.time.Clock()
+    
+    def clear(self, color: Color = Color()):
+        self.SURFACE.fill(color.tup())
 
 
 class InputManager:
@@ -556,8 +561,12 @@ class InputManager:
                 self.mouse_buttons_held[button] = False
 
         # Mouse movement
+<<<<<<< HEAD
         mouse_pos = Vector2(*pygame.mouse.get_pos())
         self.mouse_position = Vector2(mouse_pos.x - window.WIDTH // 2, -mouse_pos.y + window.HEIGHT // 2)
+=======
+        self.mouse_position = Vector2(pygame.mouse.get_pos()[0] - window.WIDTH // 2, -pygame.mouse.get_pos()[1] + window.HEIGHT // 2)
+>>>>>>> 78aa30b48ddaa8a50124a3ff07834b3f4b2949db
         self.mouse_motion = Vector2(*pygame.mouse.get_rel())
 
     def get_key_down(self, key):
