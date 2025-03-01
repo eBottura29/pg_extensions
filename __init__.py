@@ -116,6 +116,47 @@ class Color:
 
     def __repr__(self) -> str:
         return f"{self.r} {self.g} {self.b}"
+    
+    def __add__(self, other):
+        """
+        Adds color value with another color value or int/float
+        """
+        if isinstance(other, Color):
+            return Color(clamp(self.r + other.r, 0, 255), clamp(self.g + other.g, 0, 255), clamp(self.b + other.b, 0, 255))
+        elif isinstance(other, (int, float)):
+            return Color(clamp(self.r + other, 0, 255), clamp(self.g + other, 0, 255), clamp(self.b + other, 0, 255))
+        return NotImplemented
+    
+    def __sub__(self, other):
+        """
+        Subtracts color value with another color value or int/float
+        """
+        if isinstance(other, Color):
+            return Color(clamp(self.r - other.r, 0, 255), clamp(self.g - other.g, 0, 255), clamp(self.b - other.b, 0, 255))
+        elif isinstance(other, (int, float)):
+            return Color(clamp(self.r - other, 0, 255), clamp(self.g - other, 0, 255), clamp(self.b - other, 0, 255))
+        return NotImplemented
+    
+    def __mul__(self, other):
+        """
+        Multiplies color value with another color value or int/float
+        """
+        if isinstance(other, Color):
+            return Color(clamp(self.r * other.r, 0, 255), clamp(self.g * other.g, 0, 255), clamp(self.b * other.b, 0, 255))
+        elif isinstance(other, (int, float)):
+            return Color(clamp(self.r * other, 0, 255), clamp(self.g * other, 0, 255), clamp(self.b * other, 0, 255))
+        return NotImplemented
+    
+    def __truediv__(self, other):
+        """
+        Divides color value with another color value or int/float
+        """
+        if isinstance(other, Color):
+            return Color(clamp(self.r / other.r, 0, 255), clamp(self.g / other.g, 0, 255), clamp(self.b / other.b, 0, 255))
+        elif isinstance(other, (int, float)):
+            return Color(clamp(self.r / other, 0, 255), clamp(self.g / other, 0, 255), clamp(self.b / other, 0, 255))
+        return NotImplemented
+
 
 BLACK = Color(0, 0, 0)
 DGRAY = Color(64, 64, 64)
