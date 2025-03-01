@@ -142,6 +142,13 @@ class Vector2:
         y = random_float(min.y, max.y)
 
         return Vector2(x, y)
+    
+    @staticmethod
+    def random_polar(theta_min=0, theta_max=math.tau, r_min=1, r_max=1):
+        theta = random_float(theta_min, theta_max)
+        r = random_float(r_min, r_max)
+
+        return Vector2(r * math.cos(theta), r * math.sin(theta))
 
     def magnitude(self):
         """
@@ -150,8 +157,7 @@ class Vector2:
         return math.sqrt(self.x**2 + self.y**2)
     
     def sqr_magnitude(self):
-        mag = self.magnitude()
-        return mag * mag
+        return self.x**2 + self.y**2
 
     def normalize(self):
         """
@@ -246,7 +252,9 @@ class Vector2:
         if isinstance(other, Vector2):
             return Vector2(self.x / other.x, self.y / other.y)
         elif isinstance(other, (int, float)):
-            return Vector2(self.x / other, self.y / other)
+            if other != 0:
+                return Vector2(self.x / other, self.y / other)
+            return Vector2(0, 0)
         return NotImplemented
 
     # Negation (unary minus)
