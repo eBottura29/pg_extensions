@@ -561,12 +561,9 @@ class InputManager:
                 self.mouse_buttons_held[button] = False
 
         # Mouse movement
-<<<<<<< HEAD
         mouse_pos = Vector2(*pygame.mouse.get_pos())
         self.mouse_position = Vector2(mouse_pos.x - window.WIDTH // 2, -mouse_pos.y + window.HEIGHT // 2)
-=======
         self.mouse_position = Vector2(pygame.mouse.get_pos()[0] - window.WIDTH // 2, -pygame.mouse.get_pos()[1] + window.HEIGHT // 2)
->>>>>>> 78aa30b48ddaa8a50124a3ff07834b3f4b2949db
         self.mouse_motion = Vector2(*pygame.mouse.get_rel())
 
     def get_key_down(self, key):
