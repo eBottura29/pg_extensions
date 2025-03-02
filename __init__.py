@@ -30,6 +30,14 @@ def draw_circle(surface, color, position, radius, width=0):
     pygame.draw.circle(surface, color.tup(), (int(position.x) + window.WIDTH // 2, -int(position.y) + window.HEIGHT // 2), radius, width)
 
 
+def draw_circle_2(surface, color, position, radius):
+    # draws a circle with alpha value
+    target_rect = pygame.Rect((int(position.x) + window.WIDTH // 2, -int(position.y) + window.HEIGHT // 2), (0, 0)).inflate((radius * 2, radius * 2))
+    shape_surf = pygame.Surface(target_rect.size, pygame.SRCALPHA)
+    pygame.draw.circle(shape_surf, color, (radius, radius), radius)
+    surface.blit(shape_surf, target_rect)
+
+
 def draw_rectangle(surface, color, position, size, width=0):
     pygame.draw.rect(surface, color.tup(), pygame.Rect(position.x + window.WIDTH // 2, -position.y + window.HEIGHT // 2, size.x, size.y), width)
 
@@ -108,6 +116,47 @@ class Color:
 
     def __repr__(self) -> str:
         return f"{self.r} {self.g} {self.b}"
+    
+    def __add__(self, other):
+        """
+        Adds color value with another color value or int/float
+        """
+        if isinstance(other, Color):
+            return Color(clamp(self.r + other.r, 0, 255), clamp(self.g + other.g, 0, 255), clamp(self.b + other.b, 0, 255))
+        elif isinstance(other, (int, float)):
+            return Color(clamp(self.r + other, 0, 255), clamp(self.g + other, 0, 255), clamp(self.b + other, 0, 255))
+        return NotImplemented
+    
+    def __sub__(self, other):
+        """
+        Subtracts color value with another color value or int/float
+        """
+        if isinstance(other, Color):
+            return Color(clamp(self.r - other.r, 0, 255), clamp(self.g - other.g, 0, 255), clamp(self.b - other.b, 0, 255))
+        elif isinstance(other, (int, float)):
+            return Color(clamp(self.r - other, 0, 255), clamp(self.g - other, 0, 255), clamp(self.b - other, 0, 255))
+        return NotImplemented
+    
+    def __mul__(self, other):
+        """
+        Multiplies color value with another color value or int/float
+        """
+        if isinstance(other, Color):
+            return Color(clamp(self.r * other.r, 0, 255), clamp(self.g * other.g, 0, 255), clamp(self.b * other.b, 0, 255))
+        elif isinstance(other, (int, float)):
+            return Color(clamp(self.r * other, 0, 255), clamp(self.g * other, 0, 255), clamp(self.b * other, 0, 255))
+        return NotImplemented
+    
+    def __truediv__(self, other):
+        """
+        Divides color value with another color value or int/float
+        """
+        if isinstance(other, Color):
+            return Color(clamp(self.r / other.r, 0, 255), clamp(self.g / other.g, 0, 255), clamp(self.b / other.b, 0, 255))
+        elif isinstance(other, (int, float)):
+            return Color(clamp(self.r / other, 0, 255), clamp(self.g / other, 0, 255), clamp(self.b / other, 0, 255))
+        return NotImplemented
+
 
 BLACK = Color(0, 0, 0)
 DGRAY = Color(64, 64, 64)
@@ -121,7 +170,7 @@ YELLOW = Color(255, 255, 0)
 CYAN = Color(0, 255, 255)
 MAGENTA = Color(255, 0, 255)
 PURPLE = Color(128, 0, 128)
-MAGENTA = Color(128, 52, 32)
+ORANGE = Color(128, 52, 32)
 
 class Vector2:
     def __init__(self, x=0, y=0):
@@ -134,6 +183,13 @@ class Vector2:
         y = random_float(min.y, max.y)
 
         return Vector2(x, y)
+    
+    @staticmethod
+    def random_polar(theta_min=0, theta_max=math.tau, r_min=1, r_max=1):
+        theta = random_float(theta_min, theta_max)
+        r = random_float(r_min, r_max)
+
+        return Vector2(r * math.cos(theta), r * math.sin(theta))
 
     def magnitude(self):
         """
@@ -142,8 +198,7 @@ class Vector2:
         return math.sqrt(self.x**2 + self.y**2)
     
     def sqr_magnitude(self):
-        mag = self.magnitude()
-        return mag * mag
+        return self.x**2 + self.y**2
 
     def normalize(self):
         """
@@ -238,9 +293,9 @@ class Vector2:
         if isinstance(other, Vector2):
             return Vector2((self.x / other.x) if other.x != 0 else 0, (self.y / other.y) if other.y != 0 else 0)
         elif isinstance(other, (int, float)):
-            if other == 0:
-                return Vector2()
-            return Vector2(self.x / other, self.y / other)
+            if other != 0:
+                return Vector2(self.x / other, self.y / other)
+            return Vector2(0, 0)
         return NotImplemented
 
     # Negation (unary minus)
@@ -396,7 +451,7 @@ def rotate_z(point: Vector3, angle: float):
 
 class Text:
     def __init__(self, text, font, position, anchor, color, bg_color=None, anti_aliasing=True):
-        """Anchor is top left"""
+        """Default anchor is top left"""
 
         self.text = text
         self.font = font
@@ -417,19 +472,21 @@ class Text:
     arial_16 = pygame.font.SysFont("Arial", 16)
 
     def render(self):
-        text = self.font.render(self.text, self.anti_aliasing, self.color.tup(), self.bg_color if self.bg_color != None else None)
+        text = self.font.render(self.text, self.anti_aliasing, self.color.tup(), self.bg_color.tup() if self.bg_color != None else None)
         text_rect = text.get_rect()
 
+        position = self.position.x + window.WIDTH // 2, -self.position.y + window.HEIGHT // 2
+
         if self.anchor == Text.center:
-            text_rect.center = self.position.x // 2, self.position.y // 2
+            text_rect.center = position
         if self.anchor == Text.top_left:
-            text_rect.topleft = self.position.x // 2, self.position.y // 2
+            text_rect.topleft = position
         if self.anchor == Text.top_right:
-            text_rect.topright = self.position.x // 2, self.position.y // 2
+            text_rect.topright = position
         if self.anchor == Text.bottom_left:
-            text_rect.bottomleft = self.position.x // 2, self.position.y // 2
+            text_rect.bottomleft = position
         if self.anchor == Text.bottom_right:
-            text_rect.bottomright = self.position.x // 2, self.position.y // 2
+            text_rect.bottomright = position
 
         window.SURFACE.blit(text, text_rect)
 
@@ -452,10 +509,10 @@ class Button:
         self.clicked_this_click = False
 
     def render(self):
-        draw_rectangle(window.SURFACE, self.color.tup(), self.position, self.scale)
+        draw_rectangle(window.SURFACE, self.color, self.position, self.scale)
 
         if self.enable_outline:
-            draw_rectangle(window.SURFACE, self.outline_color.tup(), self.position, self.scale, self.outline_width)
+            draw_rectangle(window.SURFACE, self.outline_color, self.position, self.scale, self.outline_width)
 
         if self.render_text:
             self.text_obj = Text(self.text, self.font, self.position, Text.center, self.text_color)
@@ -553,7 +610,8 @@ class InputManager:
                 self.mouse_buttons_held[button] = False
 
         # Mouse movement
-        self.mouse_position = Vector2(pygame.mouse.get_pos()[0] - window.WIDTH // 2, -pygame.mouse.get_pos()[1] + window.HEIGHT // 2)
+        mouse_pos = Vector2(*pygame.mouse.get_pos())
+        self.mouse_position = Vector2(mouse_pos.x - window.WIDTH // 2, -mouse_pos.y + window.HEIGHT // 2)
         self.mouse_motion = Vector2(*pygame.mouse.get_rel())
 
     def get_key_down(self, key):
