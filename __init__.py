@@ -92,6 +92,27 @@ def circle_collsion(circle1_position, circle1_radius, circle2_position, circle2_
 
     return True
 
+def runge_kutta_4(position, velocity, acceleration, dt):
+    def f(pos, vel, accel):
+        return vel, accel  # dx/dt = velocity, dv/dt = acceleration
+
+    k1_v, k1_a = f(position, velocity, acceleration)
+    k1_v, k1_a = k1_v * dt, k1_a * dt
+
+    k2_v, k2_a = f(position + k1_v / 2, velocity + k1_a / 2, acceleration)
+    k2_v, k2_a = k2_v * dt, k2_a * dt
+
+    k3_v, k3_a = f(position + k2_v / 2, velocity + k2_a / 2, acceleration)
+    k3_v, k3_a = k3_v * dt, k3_a * dt
+
+    k4_v, k4_a = f(position + k3_v, velocity + k3_a, acceleration)
+    k4_v, k4_a = k4_v * dt, k4_a * dt
+
+    new_position = position + (k1_v + k2_v * 2 + k3_v * 2 + k4_v) / 6
+    new_velocity = velocity + (k1_a + k2_a * 2 + k3_a * 2 + k4_a) / 6
+
+    return new_position, new_velocity
+
 class Color:
     def __init__(self, r=0, g=0, b=0):
         self.r = r
