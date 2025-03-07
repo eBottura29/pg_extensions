@@ -113,6 +113,42 @@ def runge_kutta_4(position, velocity, acceleration, dt):
 
     return new_position, new_velocity
 
+def sin(x):
+    return math.sin(x)
+
+def cos(x):
+    return math.cos(x)
+
+def tan(x):
+    return math.tan(x)
+
+def asin(x):
+    return math.asin(x)
+
+def acos(x):
+    return math.acos(x)
+
+def atan(x):
+    return math.atan(x)
+
+def sinh(x):
+    return math.sinh(x)
+
+def cosh(x):
+    return math.cosh(x)
+
+def tanh(x):
+    return math.tanh(x)
+
+def asinh(x):
+    return math.asinh(x)
+
+def acosh(x):
+    return math.acosh(x)
+
+def atanh(x):
+    return math.atanh(x)
+
 class Color:
     def __init__(self, r=0, g=0, b=0):
         self.r = r
