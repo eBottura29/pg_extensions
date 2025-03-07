@@ -156,13 +156,13 @@ def atanh(x):
     return math.atanh(x)
 
 def asin2(x):
-    return math.asinh(x)
+    return math.asin2(x)
 
 def acos2(x):
-    return math.acosh(x)
+    return math.acos2(x)
 
 def atan2(x):
-    return math.atanh(x)
+    return math.atan2(x)
 
 class Color:
     def __init__(self, r=0, g=0, b=0):
