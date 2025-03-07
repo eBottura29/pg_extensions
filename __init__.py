@@ -2,6 +2,12 @@ import pygame, time, math, random
 
 pygame.init()
 
+PI = math.pi
+TAU = math.tau
+E = math.e
+INF = math.inf
+NEG_INF = math.inf
+NAN = math.nan
 
 def timer(func):
     def wrapper(*args, **kwargs):
