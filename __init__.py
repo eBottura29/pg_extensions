@@ -643,6 +643,8 @@ class InputManager:
         self.mouse_position = Vector2()
         self.mouse_motion = Vector2()
 
+        self.mouse_wheel = Vector2()
+
     def update(self):
         # Reset state for up and down events
         self.keys_down.clear()
@@ -703,6 +705,9 @@ class InputManager:
 
     def get_mouse_motion(self):
         return self.mouse_motion
+    
+    def get_mouse_wheel(self):
+        return self.mouse_wheel
 
 # Initialize InputManager GLOBALLY
 input_manager = InputManager()
@@ -721,11 +726,15 @@ def run(start, update, width=800, height=450, fullscreen=False, title="Game", ma
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 window.running = False
+            if event.type == pygame.MOUSEWHEEL:
+                input_manager.mouse_wheel = Vector2(event.x, event.y)
 
         # Update input states
         input_manager.update()
 
         update()
+
+        input_manager.mouse_wheel = Vector2()
 
         window.clock.tick(window.MAX_FPS)
         t = pygame.time.get_ticks()
